@@ -9,19 +9,19 @@
 ├── input_schema.json
 ├── README.md
 ├── sdk.py
-├── sdk_pd2.py
-├── sdk_pd2_grpc.py
+├── sdk_pb2.py
+├── sdk_pb2_grpc.py
 
 ```
-| File Name                 | Description                        |
-| --------------------- | ------------------------- |
+| File Name               | Description                        |
+|-------------------------| ------------------------- |
 | **`main.py`**           | Script entry file (execution entry point), uniformly named `main` |
 | **`requirements.txt`**  | Python dependency management file            |
 | **`input_schema.json`** | UI input form configuration file              |
 | **`README.md`**         | Project documentation file                  |
 | **`sdk.py`**            | SDK core functionality     |
-| **`sdk_pd2.py`**        |Enhanced data processing module    |
-| **`sdk_pd2_grpc.py`**   | Network communication module|
+| **`sdk_pb2.py`**        |Enhanced data processing module    |
+| **`sdk_pb2_grpc.py`**   | Network communication module|
 
 
 # ⭐ Core SDK Files for Scripts
@@ -30,11 +30,11 @@
 
 The following are three important SDK files that must be placed in the root directory of your script:
 
-| **File Name** | **Core Functionality** |
-| --- | --- |
-| `sdk.py` | Basic functional modules |
-| `sdk_pd2.py` | Enhanced data processing module |
-| `sdk_pd2_grpc.py` | Network communication module |
+| **File Name**     | **Core Functionality** |
+|-------------------| --- |
+| `sdk.py`          | Basic functional modules |
+| `sdk_pb2.py`      | Enhanced data processing module |
+| `sdk_pb2_grpc.py` | Network communication module |
 
 These three files form the "toolkit" for your script, providing all core functionalities required for interacting with the mid-platform system and running web crawlers.
 
