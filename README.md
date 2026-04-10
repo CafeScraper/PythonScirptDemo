@@ -1,4 +1,4 @@
-[English](https://docs.cafescraper.com/python-actor) | [中文](https://docs.cafescraper.com/cn/actor/actor/python-actor)
+[English](https://docs.coreclaw.com/python-actor) | [中文](https://docs.coreclaw.com/cn/actor/actor/python-actor)
 
 
 ### Required Files (Located in the Project Root Directory)
@@ -105,7 +105,7 @@ headers = [
 ]
 
 # set header
-res = CafeSDK.Result.set_table_header(headers)
+res = CoreSDK.Result.set_table_header(headers)
 ```
 
 **Field Explanation:**：
@@ -139,7 +139,7 @@ for i, news in enumerate(news_data):
         "category": news.get('category'),
     }
 
-    res = CafeSDK.Result.push_data(obj)
+    res = CoreSDK.Result.push_data(obj)
 
     # Record the push results
     SDK.Log.info(f"Data item {i+1}：{news.get('title')}")
@@ -171,7 +171,7 @@ headers = [
     {"label": "Category", "key": "category", "format": "text"},
     {"label": "View count", "key": "view_count", "format": "integer"},
 ]
-CafeSDK.Result.set_table_header(headers)
+CoreSDK.Result.set_table_header(headers)
 
 # 3. Simulate data collection (in practice, this could be web scraping code)
 collected_data = [
@@ -187,7 +187,7 @@ for data in collected_data:
         "category": data.get("category"),
         "view_count": data.get("view_count", 0),  # Provide a default value of 0
     }
-    res = CafeSDK.Result.push_data(obj)
+    res = CoreSDK.Result.push_data(obj)
 
 # 5. Completed
 SDK.Log.info("Data collection task completed！")
@@ -198,7 +198,7 @@ SDK.Log.info("Data collection task completed！")
 ### ⚠️ Common Issues & Notes
 
 1. **File Location**： Ensure the three `SDK` files are placed in the script's **root directory** (folder containing the main file)
-2. **Import Method**：Directly use `SDK` or `CafeSDK` in code to call related functions
+2. **Import Method**：Directly use `SDK` or `CoreSDK` in code to call related functions
 3. **键名一致**：Keys used for pushing data must exactly match (**including case**) those defined in headers
 4. **错误处理**： It is recommended to check return results for each SDK call, especially when pushing data
 
@@ -216,31 +216,31 @@ With the above functionalities, your script can seamlessly integrate with the mi
 import asyncio
 import os
 
-from sdk import CafeSDK
+from sdk import CoreSDK
 
 async def run():
     try:
         # 1. Get params
-        input_json_dict = CafeSDK.Parameter.get_input_json_dict()
-        CafeSDK.Log.debug(f"params: {input_json_dict}")
+        input_json_dict = CoreSDK.Parameter.get_input_json_dict()
+        CoreSDK.Log.debug(f"params: {input_json_dict}")
         
         # 2. proxy configuration
-        proxyDomain = "proxy-inner.cafescraper.com:6000"
+        proxyDomain = "proxy-inner.coreclaw.com:6000"
         
         try:
             proxyAuth = os.environ.get("PROXY_AUTH")
-            CafeSDK.Log.info(f"Proxy authentication information: {proxyAuth}")
+            CoreSDK.Log.info(f"Proxy authentication information: {proxyAuth}")
         except Exception as e:
-            CafeSDK.Log.error(f"Failed to retrieve proxy authentication information: {e}")
+            CoreSDK.Log.error(f"Failed to retrieve proxy authentication information: {e}")
             proxyAuth = None
         
         # 3. Construct the proxy URL
         proxy_url = f"socks5://{proxyAuth}@{proxyDomain}" if proxyAuth else None
-        CafeSDK.Log.info(f"Proxy address: {proxy_url}")
+        CoreSDK.Log.info(f"Proxy address: {proxy_url}")
         
         # 4. TODO: Handle business logic
         url = input_json_dict.get('url')
-        CafeSDK.Log.info(f"start deal URL: {url}")
+        CoreSDK.Log.info(f"start deal URL: {url}")
         
         # Simulate business processing results
         result = {
@@ -254,8 +254,8 @@ async def run():
         }
         
         # 5. Push result data
-        CafeSDK.Log.info(f"Processing result: {result}")
-        CafeSDK.Result.push_data(result)
+        CoreSDK.Log.info(f"Processing result: {result}")
+        CoreSDK.Result.push_data(result)
         
         # 6. Set the table headers (if table output is needed)
         headers = [
@@ -266,18 +266,18 @@ async def run():
             },
             # ... Other table header configurations
         ]
-        res = CafeSDK.Result.set_table_header(headers)
+        res = CoreSDK.Result.set_table_header(headers)
         
-        CafeSDK.Log.info("Script execution completed")
+        CoreSDK.Log.info("Script execution completed")
         
     except Exception as e:
-        CafeSDK.Log.error(f"Script execution error: {e}")
+        CoreSDK.Log.error(f"Script execution error: {e}")
         error_result = {
             "error": str(e),
             "error_code": "500",
             "status": "failed"
         }
-        CafeSDK.Result.push_data(error_result)
+        CoreSDK.Result.push_data(error_result)
         raise
 
 if __name__ == "__main__":

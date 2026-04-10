@@ -7,7 +7,7 @@ from google.protobuf import empty_pb2
 from typing import TypedDict, List
 
 
-class CafeSDK:
+class CoreSDK:
     _channel = grpc.insecure_channel("127.0.0.1:20086")
 
     class _ParameterService:
@@ -62,26 +62,26 @@ class CafeSDK:
 
 
 if __name__ == "__main__":
-    input_json_str = CafeSDK.Parameter.get_input_json_str()
+    input_json_str = CoreSDK.Parameter.get_input_json_str()
     print("get_input_json_str res:", input_json_str)
 
-    input_dict = CafeSDK.Parameter.get_input_json_dict()
+    input_dict = CoreSDK.Parameter.get_input_json_dict()
     print("get_input_json_dict res:", input_dict)
 
-    res = CafeSDK.Result.push_data({"py-data-key": "py-data-value"})
+    res = CoreSDK.Result.push_data({"py-data-key": "py-data-value"})
     print("push_data resp:", res.code, res.message)
 
-    res = CafeSDK.Log.debug("py-debug...")
+    res = CoreSDK.Log.debug("py-debug...")
     print("Log.debug resp:", res.code, res.message)
 
-    res = CafeSDK.Log.debug(f"input_dict={input_dict}")
+    res = CoreSDK.Log.debug(f"input_dict={input_dict}")
     print("Log.debug resp:", res.code, res.message)
 
-    res = CafeSDK.Log.info("py-info...")
+    res = CoreSDK.Log.info("py-info...")
     print("Log.info resp:", res.code, res.message)
 
-    res = CafeSDK.Log.warn("py-warn...")
+    res = CoreSDK.Log.warn("py-warn...")
     print("Log.info resp:", res.code, res.message)
 
-    res = CafeSDK.Log.error("py-error...")
+    res = CoreSDK.Log.error("py-error...")
     print("Log.info resp:", res.code, res.message)

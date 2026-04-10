@@ -6,7 +6,7 @@ import warnings
 from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 import sdk_pb2 as sdk__pb2
 
-GRPC_GENERATED_VERSION = '1.74.0'
+GRPC_GENERATED_VERSION = '1.80.0'
 GRPC_VERSION = grpc.__version__
 _version_not_supported = False
 
@@ -19,7 +19,7 @@ except ImportError:
 if _version_not_supported:
     raise RuntimeError(
         f'The grpc package installed is at version {GRPC_VERSION},'
-        + f' but the generated code in sdk_pb2_grpc.py depends on'
+        + ' but the generated code in sdk_pb2_grpc.py depends on'
         + f' grpcio>={GRPC_GENERATED_VERSION}.'
         + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
         + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
@@ -36,7 +36,7 @@ class ParameterStub(object):
             channel: A grpc.Channel.
         """
         self.GetInputJSONString = channel.unary_unary(
-                '/cafesdk.Parameter/GetInputJSONString',
+                '/coresdk.Parameter/GetInputJSONString',
                 request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
                 response_deserializer=sdk__pb2.InputJSONStringResponse.FromString,
                 _registered_method=True)
@@ -61,9 +61,9 @@ def add_ParameterServicer_to_server(servicer, server):
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'cafesdk.Parameter', rpc_method_handlers)
+            'coresdk.Parameter', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers('cafesdk.Parameter', rpc_method_handlers)
+    server.add_registered_method_handlers('coresdk.Parameter', rpc_method_handlers)
 
 
  # This class is part of an EXPERIMENTAL API.
@@ -84,7 +84,7 @@ class Parameter(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/cafesdk.Parameter/GetInputJSONString',
+            '/coresdk.Parameter/GetInputJSONString',
             google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
             sdk__pb2.InputJSONStringResponse.FromString,
             options,
@@ -108,12 +108,12 @@ class ResultStub(object):
             channel: A grpc.Channel.
         """
         self.SetTableHeader = channel.unary_unary(
-                '/cafesdk.Result/SetTableHeader',
+                '/coresdk.Result/SetTableHeader',
                 request_serializer=sdk__pb2.TableHeader.SerializeToString,
                 response_deserializer=sdk__pb2.Response.FromString,
                 _registered_method=True)
         self.PushData = channel.unary_unary(
-                '/cafesdk.Result/PushData',
+                '/coresdk.Result/PushData',
                 request_serializer=sdk__pb2.Data.SerializeToString,
                 response_deserializer=sdk__pb2.Response.FromString,
                 _registered_method=True)
@@ -149,9 +149,9 @@ def add_ResultServicer_to_server(servicer, server):
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'cafesdk.Result', rpc_method_handlers)
+            'coresdk.Result', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers('cafesdk.Result', rpc_method_handlers)
+    server.add_registered_method_handlers('coresdk.Result', rpc_method_handlers)
 
 
  # This class is part of an EXPERIMENTAL API.
@@ -172,7 +172,7 @@ class Result(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/cafesdk.Result/SetTableHeader',
+            '/coresdk.Result/SetTableHeader',
             sdk__pb2.TableHeader.SerializeToString,
             sdk__pb2.Response.FromString,
             options,
@@ -199,7 +199,7 @@ class Result(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/cafesdk.Result/PushData',
+            '/coresdk.Result/PushData',
             sdk__pb2.Data.SerializeToString,
             sdk__pb2.Response.FromString,
             options,
@@ -223,22 +223,22 @@ class LogStub(object):
             channel: A grpc.Channel.
         """
         self.Debug = channel.unary_unary(
-                '/cafesdk.Log/Debug',
+                '/coresdk.Log/Debug',
                 request_serializer=sdk__pb2.LogBody.SerializeToString,
                 response_deserializer=sdk__pb2.Response.FromString,
                 _registered_method=True)
         self.Info = channel.unary_unary(
-                '/cafesdk.Log/Info',
+                '/coresdk.Log/Info',
                 request_serializer=sdk__pb2.LogBody.SerializeToString,
                 response_deserializer=sdk__pb2.Response.FromString,
                 _registered_method=True)
         self.Warn = channel.unary_unary(
-                '/cafesdk.Log/Warn',
+                '/coresdk.Log/Warn',
                 request_serializer=sdk__pb2.LogBody.SerializeToString,
                 response_deserializer=sdk__pb2.Response.FromString,
                 _registered_method=True)
         self.Error = channel.unary_unary(
-                '/cafesdk.Log/Error',
+                '/coresdk.Log/Error',
                 request_serializer=sdk__pb2.LogBody.SerializeToString,
                 response_deserializer=sdk__pb2.Response.FromString,
                 _registered_method=True)
@@ -296,9 +296,9 @@ def add_LogServicer_to_server(servicer, server):
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'cafesdk.Log', rpc_method_handlers)
+            'coresdk.Log', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers('cafesdk.Log', rpc_method_handlers)
+    server.add_registered_method_handlers('coresdk.Log', rpc_method_handlers)
 
 
  # This class is part of an EXPERIMENTAL API.
@@ -319,7 +319,7 @@ class Log(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/cafesdk.Log/Debug',
+            '/coresdk.Log/Debug',
             sdk__pb2.LogBody.SerializeToString,
             sdk__pb2.Response.FromString,
             options,
@@ -346,7 +346,7 @@ class Log(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/cafesdk.Log/Info',
+            '/coresdk.Log/Info',
             sdk__pb2.LogBody.SerializeToString,
             sdk__pb2.Response.FromString,
             options,
@@ -373,7 +373,7 @@ class Log(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/cafesdk.Log/Warn',
+            '/coresdk.Log/Warn',
             sdk__pb2.LogBody.SerializeToString,
             sdk__pb2.Response.FromString,
             options,
@@ -400,7 +400,7 @@ class Log(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/cafesdk.Log/Error',
+            '/coresdk.Log/Error',
             sdk__pb2.LogBody.SerializeToString,
             sdk__pb2.Response.FromString,
             options,
