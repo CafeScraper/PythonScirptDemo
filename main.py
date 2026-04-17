@@ -13,7 +13,7 @@ async def run():
         CoreSDK.Log.debug(f"params: {input_json_dict}")
 
         # 2. proxy configuration (read from environment variable for flexible deployment)
-        proxyDomain = os.environ.get("PROXY_DOMAIN") or "proxy-inner.coreclaw.com:6000"
+        proxyDomain = os.environ.get("PROXY_DOMAIN")
         CoreSDK.Log.info(f"Proxy domain: {proxyDomain}")
 
         try:

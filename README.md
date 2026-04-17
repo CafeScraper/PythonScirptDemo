@@ -224,8 +224,8 @@ async def run():
         input_json_dict = CoreSDK.Parameter.get_input_json_dict()
         CoreSDK.Log.debug(f"params: {input_json_dict}")
         
-        # 2. proxy configuration
-        proxyDomain = "proxy-inner.coreclaw.com:6000"
+        # 2. proxy configuration (retrieve only from environment variables)
+        proxyDomain = os.environ.get("PROXY_DOMAIN")
         
         try:
             proxyAuth = os.environ.get("PROXY_AUTH")
