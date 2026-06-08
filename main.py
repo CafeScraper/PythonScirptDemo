@@ -1,63 +1,90 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import asyncio
 import os
+import time
 
 from sdk import CoreSDK
 
 
-async def run():
+def main():
     try:
-        # 1. Get params
+        # 1. Get input parameters
         input_json_dict = CoreSDK.Parameter.get_input_json_dict()
-        CoreSDK.Log.debug(f"params: {input_json_dict}")
+        CoreSDK.Log.debug(f"Input parameters: {input_json_dict}")
 
-        # 2. proxy configuration (read from environment variable for flexible deployment)
-        proxyDomain = os.environ.get("PROXY_DOMAIN")
-        CoreSDK.Log.info(f"Proxy domain: {proxyDomain}")
+        # 2. Read and log all input fields (demonstrating 11 editor types)
+        urls = input_json_dict.get("urls", [])
+        sources = input_json_dict.get("sources", [])
+        search_terms = input_json_dict.get("searchTerms", [])
+        location = input_json_dict.get("location", "")
+        notes = input_json_dict.get("notes", "")
+        max_results = int(input_json_dict.get("max_results", 100))
+        language = input_json_dict.get("language", "en")
+        category = input_json_dict.get("category", 1)
+        data_sections = input_json_dict.get("data_sections", [])
+        skip_closed = bool(input_json_dict.get("skip_closed", False))
+        since_date = input_json_dict.get("since_date", "")
 
+        CoreSDK.Log.info(f"[requestList] urls: {urls}")
+        CoreSDK.Log.info(f"[requestListSource] sources: {sources}")
+        CoreSDK.Log.info(f"[stringList] searchTerms: {search_terms}")
+        CoreSDK.Log.info(f"[input] location: {location}")
+        CoreSDK.Log.info(f"[textarea] notes: {notes}")
+        CoreSDK.Log.info(f"[number] max_results: {max_results}")
+        CoreSDK.Log.info(f"[select] language: {language}")
+        CoreSDK.Log.info(f"[radio] category: {category}")
+        CoreSDK.Log.info(f"[checkbox] data_sections: {data_sections}")
+        CoreSDK.Log.info(f"[switch] skip_closed: {skip_closed}")
+        CoreSDK.Log.info(f"[datepicker] since_date: {since_date}")
+
+        # 3. Proxy configuration (read from environment variables)
+        proxy_domain = os.environ.get("PROXY_DOMAIN")
         try:
-            proxyAuth = os.environ.get("PROXY_AUTH")
-            CoreSDK.Log.info(f"Proxy authentication information: {proxyAuth}")
+            proxy_auth = os.environ.get("PROXY_AUTH")
+            CoreSDK.Log.info(f"Proxy authentication: {proxy_auth}")
         except Exception as e:
-            CoreSDK.Log.error(f"Failed to retrieve proxy authentication information: {e}")
-            proxyAuth = None
+            CoreSDK.Log.error(f"Failed to retrieve proxy authentication: {e}")
+            proxy_auth = None
 
-        # 3. Construct the proxy URL
-        proxy_url = f"socks5://{proxyAuth}@{proxyDomain}" if proxyAuth else None
-        CoreSDK.Log.info(f"Proxy address: {proxy_url}")
+        # 4. Construct proxy URL
+        proxy_url = f"socks5://{proxy_auth}@{proxy_domain}" if proxy_auth else None
+        CoreSDK.Log.info(f"Proxy URL: {proxy_url}")
 
-        # 4. TODO: Handle business logic
-        url = input_json_dict.get('url')
-        CoreSDK.Log.info(f"start deal URL: {url}")
-
-        # Simulate business processing results
-        result = {
-            "url": url,
-            "status": "success",
-            "data": {
-                "title": "Sample title",
-                "content": "Sample content",
-                # ... Other fields
-            }
-        }
-
-        # 5. Push result data
-        CoreSDK.Log.info(f"Processing result: {result}")
-        CoreSDK.Result.push_data(result)
-
-        # 6. Set the table headers (if table output is needed)
+        # 5. Set table headers
         headers = [
-            {
-                "label": "URL",
-                "key": "url",
-                "format": "text",
-            },
-            # ... Other table header configurations
+            {"label": "Primary Key", "key": "id", "format": "text"},
+            {"label": "Title", "key": "title", "format": "text"},
+            {"label": "Description", "key": "description", "format": "text"},
         ]
-        res = CoreSDK.Result.set_table_header(headers)
+        CoreSDK.Result.set_table_header(headers)
 
-        CoreSDK.Log.info("Script execution completed")
+        # 6. Push data in batches (limited by max_results)
+        batch_size = 100
+        sleep_seconds = 1
+
+        for index in range(1, max_results + 1):
+            data = {
+                "id": f"test-{index}",
+                "title": f"Test Title {index}",
+                "description": f"This is test description number {index}",
+            }
+            CoreSDK.Result.upsert_data(data, "id")
+
+            if index % batch_size == 0:
+                CoreSDK.Log.info(f"Pushed {index} items")
+                if index < max_results:
+                    time.sleep(sleep_seconds)
+
+        CoreSDK.Log.info("Starting second push for multiples of 3")
+        for index in range(3, max_results + 1, 3):
+            data = {
+                "id": f"test-{index}",
+                "title": f"Test Title {index}",
+                "description": f"This is updated test description number {index} after second push",
+            }
+            CoreSDK.Result.upsert_data(data, "id")
+
+        CoreSDK.Log.info("Second push for multiples of 3 completed")
 
     except Exception as e:
         CoreSDK.Log.error(f"Script execution error: {e}")
@@ -71,4 +98,4 @@ async def run():
 
 
 if __name__ == "__main__":
-    asyncio.run(run())
+    main()
