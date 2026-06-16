@@ -88,6 +88,12 @@ def main():
 
     except Exception as e:
         CoreSDK.Log.error(f"Script execution error: {e}")
+        error_headers = [
+            {"label": "Error", "key": "error", "format": "text"},
+            {"label": "Error Code", "key": "error_code", "format": "text"},
+            {"label": "Status", "key": "status", "format": "text"},
+        ]
+        CoreSDK.Result.set_table_header(error_headers)
         error_result = {
             "error": str(e),
             "error_code": "500",

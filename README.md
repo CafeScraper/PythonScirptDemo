@@ -3,7 +3,7 @@
 
 ### Required Files (Located in the Project Root Directory)
 
-``` 
+```
 ├── main.py
 ├── requirements.txt
 ├── input_schema.json
@@ -94,7 +94,7 @@ headers = [
     },
     {
         "label": "Publish time",
-        "key": "publish_time",  
+        "key": "publish_time",
         "format": "text",
     },
     {
@@ -134,8 +134,8 @@ news_data = [
 # push data
 for i, news in enumerate(news_data):
     obj = {
-        "title": news.get('title'),          
-        "publish_time": news.get('publish_time'), 
+        "title": news.get('title'),
+        "publish_time": news.get('publish_time'),
         "category": news.get('category'),
     }
 
@@ -223,25 +223,25 @@ async def run():
         # 1. Get params
         input_json_dict = CoreSDK.Parameter.get_input_json_dict()
         CoreSDK.Log.debug(f"params: {input_json_dict}")
-        
+
         # 2. proxy configuration (retrieve only from environment variables)
         proxyDomain = os.environ.get("PROXY_DOMAIN")
-        
+
         try:
             proxyAuth = os.environ.get("PROXY_AUTH")
             CoreSDK.Log.info(f"Proxy authentication information: {proxyAuth}")
         except Exception as e:
             CoreSDK.Log.error(f"Failed to retrieve proxy authentication information: {e}")
             proxyAuth = None
-        
+
         # 3. Construct the proxy URL
         proxy_url = f"socks5://{proxyAuth}@{proxyDomain}" if proxyAuth else None
         CoreSDK.Log.info(f"Proxy address: {proxy_url}")
-        
+
         # 4. TODO: Handle business logic
         url = input_json_dict.get('url')
         CoreSDK.Log.info(f"start deal URL: {url}")
-        
+
         # Simulate business processing results
         result = {
             "url": url,
@@ -252,12 +252,8 @@ async def run():
                 # ... Other fields
             }
         }
-        
-        # 5. Push result data
-        CoreSDK.Log.info(f"Processing result: {result}")
-        CoreSDK.Result.push_data(result)
-        
-        # 6. Set the table headers (if table output is needed)
+
+        # 5. Set the table headers (if table output is needed)
         headers = [
             {
                 "label": "URL",
@@ -267,11 +263,22 @@ async def run():
             # ... Other table header configurations
         ]
         res = CoreSDK.Result.set_table_header(headers)
-        
+
+
+        # 6. Push result data
+        CoreSDK.Log.info(f"Processing result: {result}")
+        CoreSDK.Result.push_data(result)
+
         CoreSDK.Log.info("Script execution completed")
-        
+
     except Exception as e:
         CoreSDK.Log.error(f"Script execution error: {e}")
+        error_headers = [
+            {"label": "Error", "key": "error", "format": "text"},
+            {"label": "Error Code", "key": "error_code", "format": "text"},
+            {"label": "Status", "key": "status", "format": "text"},
+        ]
+        CoreSDK.Result.set_table_header(error_headers)
         error_result = {
             "error": str(e),
             "error_code": "500",
