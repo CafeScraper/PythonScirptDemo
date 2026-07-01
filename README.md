@@ -1,4 +1,4 @@
-[English](https://docs.coreclaw.com/python-actor) | [中文](https://docs.coreclaw.com/cn/actor/actor/python-actor)
+
 
 
 ### Required Files (Located in the Project Root Directory)
